@@ -1,21 +1,26 @@
 const Http = require('http');
-
+const Express = require('express');
 const PORT = 8087;
 
-const server = Http.createServer((req, res) => {
+const app = Express();
+const router = Express.Router();
+
+// Middleware function used for logging requests
+router.use((req, res, next) => {
   console.log(`Received request: ${req.url}`);
-
-  switch (req.url) {
-    case '/hello-world':
-      res.write('Hello World!');
-      break;
-    case '/':
-    default:
-      res.write('NodeJS is awesome!');
-  }
-
-  res.end();
+  next();
 });
-server.listen(PORT, () => {
+
+router.get('/hello-world', (req, res) => {
+  res.end('Hello world!');
+});
+
+router.use('*', (req, res) => {
+  res.end('NodeJS is awesome!');
+});
+
+app.use(router);
+
+app.listen(PORT, () => {
   console.info(`Server is UP and listening at port ${PORT}`);
 });
