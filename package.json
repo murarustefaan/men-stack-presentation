@@ -1,0 +1,11 @@
+{
+  "name": "men-presentation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Ștefan Muraru <stefan.muraru@tss-yonder.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
