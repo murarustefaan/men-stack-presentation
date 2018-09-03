@@ -1,25 +1,23 @@
-const Http = require('http');
 const Express = require('express');
+const BodyParser = require('body-parser');
+const hamsterRouter = require('./routers/hamster');
+
 const PORT = 8087;
 
 const app = Express();
-const router = Express.Router();
 
-// Middleware function used for logging requests
-router.use((req, res, next) => {
-  console.log(`Received request: ${req.url}`);
-  next();
-});
+// Middleware used for parsing POST and PUT request bodies
+app.use(BodyParser.json({
+  strict: true
+}));
 
-router.get('/hello-world', (req, res) => {
-  res.end('Hello world!');
-});
+// Use routers
+app.use('/api/hamsters', hamsterRouter);
 
-router.use('*', (req, res) => {
+// Generic route
+app.all('*', (req, res) => {
   res.end('NodeJS is awesome!');
 });
-
-app.use(router);
 
 app.listen(PORT, () => {
   console.info(`Server is UP and listening at port ${PORT}`);
